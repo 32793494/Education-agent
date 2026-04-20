@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>已合并实体对抽样审查 — round_07</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;background:#f0f2f5;color:#222}
+h1{padding:16px 20px 4px;font-size:17px;font-weight:600}
+.subtitle{padding:0 20px 12px;color:#666;font-size:12px}
+.stats-bar{display:flex;gap:16px;padding:8px 20px;background:#fff;border-bottom:1px solid #eee;font-size:12px;flex-wrap:wrap;align-items:center}
+.stat-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:3px}
+.controls{display:flex;gap:10px;padding:10px 20px;background:#fff;border-bottom:1px solid #ddd;flex-wrap:wrap;align-items:center}
+#search{flex:1;min-width:180px;padding:5px 10px;border:1px solid #ccc;border-radius:4px;font-size:13px}
+.filter-btn{padding:4px 10px;border:1px solid #ccc;border-radius:12px;background:#f5f5f5;cursor:pointer;font-size:12px}
+.filter-btn.active{background:#1677ff;color:#fff;border-color:#1677ff}
+.export-btn{margin-left:auto;padding:5px 14px;background:#52c41a;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px}
+.export-btn:hover{background:#389e0d}
+.list{padding:12px 20px;display:flex;flex-direction:column;gap:10px}
+.card{background:#fff;border-radius:8px;border:1px solid #e8e8e8;overflow:hidden}
+.card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.card-header{display:flex;align-items:center;gap:8px;padding:10px 14px;flex-wrap:wrap}
+.idx{color:#aaa;font-size:11px;min-width:28px}
+.pair-title{font-weight:500;flex:1;min-width:180px}
+.vs{color:#bbb;font-size:11px;margin:0 3px}
+.badge{padding:3px 9px;border-radius:10px;font-size:11px;font-weight:500;white-space:nowrap}
+.v-correct{background:#f6ffed;color:#389e0d;border:1px solid #b7eb8f}
+.v-wrong{background:#fff1f0;color:#cf1322;border:1px solid #ffa39e}
+.v-uncertain{background:#fffbe6;color:#d46b08;border:1px solid #ffe58f}
+.v-error{background:#f5f5f5;color:#999;border:1px solid #ddd}
+.conf-wrap{display:flex;align-items:center;gap:4px}
+.conf-bar{display:inline-block;height:6px;border-radius:3px;min-width:2px;max-width:100px}
+.conf-num{font-size:11px;color:#888;min-width:28px}
+.toggle-btn{margin-left:auto;padding:3px 8px;font-size:11px;border:1px solid #ddd;border-radius:4px;background:#fafafa;cursor:pointer}
+.card-body{padding:0 14px;overflow:hidden}
+.card-body.collapsed{display:none}
+.ai-reason{background:#f6f8ff;border-left:3px solid #1677ff;padding:8px 12px;margin:10px 0;border-radius:0 4px 4px 0;font-size:12px;line-height:1.6}
+.entity-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+@media(max-width:600px){.entity-grid{grid-template-columns:1fr}}
+.entity-col{background:#fafafa;border:1px solid #f0f0f0;border-radius:6px;padding:10px}
+.entity-name{font-weight:600;margin-bottom:3px}
+.entity-meta{font-size:11px;color:#888;margin-bottom:6px}
+.def-list{padding-left:16px;font-size:12px;color:#444;line-height:1.7}
+.def-list .no-def{color:#bbb;list-style:none;padding-left:0}
+.sys-row{font-size:11px;color:#888;padding:6px 0;border-top:1px solid #f0f0f0}
+.sys-label{font-weight:500;color:#666}
+.decision-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid #f0f0f0;flex-wrap:wrap}
+.decision-label{font-size:12px;color:#666;font-weight:500}
+.dec-btn{padding:4px 12px;border-radius:4px;border:1px solid #ddd;cursor:pointer;font-size:12px}
+.dec-correct{background:#f6ffed;color:#389e0d;border-color:#b7eb8f}
+.dec-correct:hover,.dec-correct.active{background:#52c41a;color:#fff}
+.dec-wrong{background:#fff1f0;color:#cf1322;border-color:#ffa39e}
+.dec-wrong:hover,.dec-wrong.active{background:#ff4d4f;color:#fff}
+.dec-skip{background:#f5f5f5;color:#666}
+.dec-skip:hover,.dec-skip.active{background:#bbb;color:#fff}
+.decision-result{font-size:12px;font-weight:500}
+.hidden{display:none!important}
+#export-area{display:none;width:calc(100% - 40px);height:160px;margin:0 20px 20px;font-size:11px;border:1px solid #ccc;border-radius:4px;padding:6px}
+</style>
+</head>
+<body>
+<h1>已合并实体对 — 抽样审查（50 条）</h1>
+<p class="subtitle">基线 <code>round_07_all15_merge_v7</code> · 从 453 条合并决策中随机抽取 50 条 · AI 模型: deepseek-chat</p>
+
+<div class="stats-bar">
+  <span><span class="stat-dot" style="background:#52c41a"></span>AI 认为正确: <strong>50</strong></span>
+  <span><span class="stat-dot" style="background:#ff4d4f"></span>AI 认为错误: <strong>0</strong></span>
+  <span><span class="stat-dot" style="background:#faad14"></span>不确定: <strong>0</strong></span>
+  <span><span class="stat-dot" style="background:#ccc"></span>错误: <strong>0</strong></span>
+  <span style="margin-left:auto;color:#aaa">人工已判断: <span id="judged-count">0</span> / 50</span>
+</div>
+
+<div class="controls">
+  <input id="search" type="text" placeholder="搜索实体名称..." />
+  <button class="filter-btn active" data-filter="all">全部 (50)</button>
+  <button class="filter-btn" data-filter="correct">AI 正确 (50)</button>
+  <button class="filter-btn" data-filter="wrong">AI 错误 (0)</button>
+  <button class="filter-btn" data-filter="uncertain">不确定 (0)</button>
+  <button class="export-btn" onclick="exportDecisions()">导出判断 JSON</button>
+</div>
+
+<div class="list">
+
+<div class="card" id="cand_67c512bf22ae" data-verdict="correct"
+  data-left="Fast Fourier Transform" data-right="Fast Fourier transform"
+  data-type="algorithm" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;一种高效的离散傅里叶变换算法,涉及子向量奇偶索引的有效交错计算。&quot;]" data-right-defs="[&quot;一种以 O(n log(n)) 运算计算离散傅里叶变换的数值算法。&quot;]">
+  <div class="card-header">
+    <span class="idx">#1</span>
+    <span class="pair-title">Fast Fourier Transform <span class="vs">↔</span> Fast Fourier transform</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 100%">
+      <span class="conf-bar" style="width:100px;background:#52c41a"></span>
+      <span class="conf-num">100%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体都是指同一种高效的离散傅里叶变换算法，只是大小写和描述细节略有不同。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Fast Fourier Transform</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>一种高效的离散傅里叶变换算法,涉及子向量奇偶索引的有效交错计算。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Fast Fourier transform</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>一种以 O(n log(n)) 运算计算离散傅里叶变换的数值算法。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_67c512bf22ae','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_67c512bf22ae','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_67c512bf22ae','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_67c512bf22ae"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_0ffd36b7ea96" data-verdict="correct"
+  data-left="User researcher" data-right="user researchers"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;将用户需求转化为设计需求的人员。&quot;]" data-right-defs="[&quot;向所有利益相关者提供报告反馈的研究人员。&quot;]">
+  <div class="card-header">
+    <span class="idx">#2</span>
+    <span class="pair-title">User researcher <span class="vs">↔</span> user researchers</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体是同一概念的单复数形式，核心定义虽有侧重但高度互补，均描述从事用户研究的人员。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: User researcher</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>将用户需求转化为设计需求的人员。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: user researchers</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>向所有利益相关者提供报告反馈的研究人员。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_0ffd36b7ea96','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_0ffd36b7ea96','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_0ffd36b7ea96','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_0ffd36b7ea96"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_3a110035231c" data-verdict="correct"
+  data-left="objective data" data-right="Objective data"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;准确描述玩家行为的客观数据,是telemetry data的同义词&quot;, &quot;数据能被不同观察者以相同方式感知,是可观测的事实。&quot;, &quot;基于事实和证据的数据&quot;]" data-right-defs="[]">
+  <div class="card-header">
+    <span class="idx">#3</span>
+    <span class="pair-title">objective data <span class="vs">↔</span> Objective data</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体表面形式仅大小写不同，且实体A的定义明确指出其为客观数据，与实体B的名称完全一致，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: objective data</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>准确描述玩家行为的客观数据,是telemetry data的同义词</li><li>数据能被不同观察者以相同方式感知,是可观测的事实。</li><li>基于事实和证据的数据</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Objective data</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li class="no-def">（无定义）</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_3a110035231c','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_3a110035231c','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_3a110035231c','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_3a110035231c"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_8cd833138d72" data-verdict="correct"
+  data-left="style guide" data-right="Style guide"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;一个文档,说明UI元素的存在、外观和排列方式。&quot;, &quot;定义界面元素和信息呈现方式的设计规范&quot;, &quot;记录所有关于产品设计决策的最终文档或数字资源&quot;]" data-right-defs="[&quot;包含关于存在什么元素、它们看起来如何以及如何排列等信息的文档&quot;]">
+  <div class="card-header">
+    <span class="idx">#4</span>
+    <span class="pair-title">style guide <span class="vs">↔</span> Style guide</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代定义UI元素外观、排列和设计规范的文档，是同一概念的不同大小写形式。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: style guide</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一个文档,说明UI元素的存在、外观和排列方式。</li><li>定义界面元素和信息呈现方式的设计规范</li><li>记录所有关于产品设计决策的最终文档或数字资源</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Style guide</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>包含关于存在什么元素、它们看起来如何以及如何排列等信息的文档</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_8cd833138d72','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_8cd833138d72','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_8cd833138d72','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_8cd833138d72"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_654823df6950" data-verdict="correct"
+  data-left="flow map" data-right="flow maps"
+  data-type="concept" data-signals="plural_variant, head_word_match"
+  data-score="0.94"
+  data-left-defs="[&quot;使用线条表示地理区域间实体移动的地图。&quot;]" data-right-defs="[]">
+  <div class="card-header">
+    <span class="idx">#5</span>
+    <span class="pair-title">flow map <span class="vs">↔</span> flow maps</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A和实体B是同一概念的单复数形式，均指代表示地理区域间实体移动的地图。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: flow map</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>使用线条表示地理区域间实体移动的地图。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: flow maps</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li class="no-def">（无定义）</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match
+      <span class="sys-label" style="margin-left:16px">得分：</span>0.94
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_654823df6950','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_654823df6950','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_654823df6950','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_654823df6950"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_0dba5125a8fc" data-verdict="correct"
+  data-left="post-task questionnaire" data-right="Post-task questionnaires"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;用于可用性测试中在任务完成后收集主观评分的问卷。&quot;, &quot;用于在用户完成任务后评估其感知可用性的问卷。&quot;]" data-right-defs="[&quot;任务后使用的可用性评估问卷,用于实验性比较。&quot;]">
+  <div class="card-header">
+    <span class="idx">#6</span>
+    <span class="pair-title">post-task questionnaire <span class="vs">↔</span> Post-task questionnaires</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体都指代在可用性测试中，用户完成任务后用于收集主观反馈的同一种评估工具，仅是单复数形式的差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: post-task questionnaire</div>
+        <div class="entity-meta">类型: concept · 角色: task</div>
+        <ul class="def-list"><li>用于可用性测试中在任务完成后收集主观评分的问卷。</li><li>用于在用户完成任务后评估其感知可用性的问卷。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Post-task questionnaires</div>
+        <div class="entity-meta">类型: concept · 角色: task</div>
+        <ul class="def-list"><li>任务后使用的可用性评估问卷,用于实验性比较。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_0dba5125a8fc','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_0dba5125a8fc','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_0dba5125a8fc','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_0dba5125a8fc"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_7d3402e9eb93" data-verdict="correct"
+  data-left="machine learning" data-right="Machine learning"
+  data-type="algorithm" data-signals="surface_key_match, seed_alias_match, head_word_match, surface_containment"
+  data-score="2.3400000000000003"
+  data-left-defs="[&quot;数据科学的一个子领域,包含重要算法与泛化保证&quot;, &quot;指从数据中进行泛化的通用工具算法,能解决多领域问题而无需详细的领域特定知识。&quot;, &quot;从游戏玩法指标中获取知识的方法之一&quot;]" data-right-defs="[&quot;一组能够提取数据中主导模式的统计工具和算法。&quot;]">
+  <div class="card-header">
+    <span class="idx">#7</span>
+    <span class="pair-title">machine learning <span class="vs">↔</span> Machine learning</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 100%">
+      <span class="conf-bar" style="width:100px;background:#52c41a"></span>
+      <span class="conf-num">100%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体在拼写、类型和核心定义上完全一致，仅存在大小写差异，表示同一个算法领域。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: machine learning</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>数据科学的一个子领域,包含重要算法与泛化保证</li><li>指从数据中进行泛化的通用工具算法,能解决多领域问题而无需详细的领域特定知识。</li><li>从游戏玩法指标中获取知识的方法之一</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Machine learning</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>一组能够提取数据中主导模式的统计工具和算法。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, seed_alias_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>2.3400000000000003
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_7d3402e9eb93','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_7d3402e9eb93','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_7d3402e9eb93','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_7d3402e9eb93"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_ef910a033528" data-verdict="correct"
+  data-left="VC-dimension" data-right="VC-Dimension"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;重要的结构性与复杂性度量之一&quot;, &quot;衡量假设类或问题类复杂度的一个概念&quot;, &quot;衡量概念类复杂度的度量&quot;]" data-right-defs="[&quot;衡量集合系统复杂度或表示能力的指标,是能被系统shatter的最大点集的大小&quot;]">
+  <div class="card-header">
+    <span class="idx">#8</span>
+    <span class="pair-title">VC-dimension <span class="vs">↔</span> VC-Dimension</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 100%">
+      <span class="conf-bar" style="width:100px;background:#52c41a"></span>
+      <span class="conf-num">100%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体是同一概念&#x27;VC维&#x27;的不同大小写写法，定义描述一致。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: VC-dimension</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>重要的结构性与复杂性度量之一</li><li>衡量假设类或问题类复杂度的一个概念</li><li>衡量概念类复杂度的度量</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: VC-Dimension</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>衡量集合系统复杂度或表示能力的指标,是能被系统shatter的最大点集的大小</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_ef910a033528','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_ef910a033528','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_ef910a033528','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_ef910a033528"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_d3689a88778a" data-verdict="correct"
+  data-left="number-based strategies" data-right="number-based strategy"
+  data-type="algorithm" data-signals="plural_variant, head_word_match, definition_overlap"
+  data-score="1.0999999999999999"
+  data-left-defs="[&quot;关注于消除非法数字选择的求解策略&quot;]" data-right-defs="[&quot;基于数字的策略,通过逐步消除无效的数字选择来求解&quot;]">
+  <div class="card-header">
+    <span class="idx">#9</span>
+    <span class="pair-title">number-based strategies <span class="vs">↔</span> number-based strategy</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体在定义和类型上高度一致，仅存在单复数形式的差异，表示同一个算法概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: number-based strategies</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>关注于消除非法数字选择的求解策略</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: number-based strategy</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>基于数字的策略,通过逐步消除无效的数字选择来求解</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, definition_overlap
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.0999999999999999
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_d3689a88778a','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_d3689a88778a','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_d3689a88778a','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_d3689a88778a"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_f1bde59ea60a" data-verdict="correct"
+  data-left="User engagement" data-right="user engagement"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment, definition_overlap"
+  data-score="1.4"
+  data-left-defs="[&quot;交互系统以吸引和激励的方式呈现功能与信息,支持与系统的持续互动&quot;, &quot;交互式系统以邀请和激励的方式呈现功能与信息,支持与系统的持续互动。&quot;]" data-right-defs="[&quot;交互系统以邀请和激励的方式呈现功能与信息,支持用户持续互动。&quot;]">
+  <div class="card-header">
+    <span class="idx">#10</span>
+    <span class="pair-title">User engagement <span class="vs">↔</span> user engagement</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体在拼写、定义和概念上高度一致，仅存在大小写差异，表示同一个交互设计概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: User engagement</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>交互系统以吸引和激励的方式呈现功能与信息,支持与系统的持续互动</li><li>交互式系统以邀请和激励的方式呈现功能与信息,支持与系统的持续互动。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: user engagement</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>交互系统以邀请和激励的方式呈现功能与信息,支持用户持续互动。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment, definition_overlap
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.4
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_f1bde59ea60a','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_f1bde59ea60a','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_f1bde59ea60a','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_f1bde59ea60a"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_bae69591dd7d" data-verdict="correct"
+  data-left="confidence interval" data-right="Confidence Intervals"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;通过bootstrap方法可以计算的置信区间&quot;, &quot;围绕样本均值的估计范围,用于量化抽样不确定性。&quot;, &quot;一个包含总体参数可能取值的范围,具有特定的置信水平&quot;]" data-right-defs="[&quot;用于建立样本平均SUS分数可能范围的统计区间&quot;]">
+  <div class="card-header">
+    <span class="idx">#11</span>
+    <span class="pair-title">confidence interval <span class="vs">↔</span> Confidence Intervals</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代统计学中用于量化估计不确定性的同一概念，仅存在单复数形式的表面差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: confidence interval</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>通过bootstrap方法可以计算的置信区间</li><li>围绕样本均值的估计范围,用于量化抽样不确定性。</li><li>一个包含总体参数可能取值的范围,具有特定的置信水平</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Confidence Intervals</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>用于建立样本平均SUS分数可能范围的统计区间</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_bae69591dd7d','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_bae69591dd7d','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_bae69591dd7d','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_bae69591dd7d"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_c7bcc5c3d361" data-verdict="correct"
+  data-left="Backpropagation" data-right="back propagation"
+  data-type="algorithm" data-signals="surface_key_match"
+  data-score="0.9"
+  data-left-defs="[&quot;用于求解神经网络优化问题的算法&quot;, &quot;现代用于训练神经网络的优化算法之一,在后续章节介绍。&quot;, &quot;一种用于计算神经网络训练所需梯度的方法,基于链式法则。&quot;]" data-right-defs="[&quot;在网络上下文中对随机梯度下降的称呼。&quot;]">
+  <div class="card-header">
+    <span class="idx">#12</span>
+    <span class="pair-title">Backpropagation <span class="vs">↔</span> back propagation</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体是同一算法，仅存在大小写和空格差异，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Backpropagation</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>用于求解神经网络优化问题的算法</li><li>现代用于训练神经网络的优化算法之一,在后续章节介绍。</li><li>一种用于计算神经网络训练所需梯度的方法,基于链式法则。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: back propagation</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>在网络上下文中对随机梯度下降的称呼。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match
+      <span class="sys-label" style="margin-left:16px">得分：</span>0.9
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_c7bcc5c3d361','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_c7bcc5c3d361','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_c7bcc5c3d361','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_c7bcc5c3d361"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_659043018101" data-verdict="correct"
+  data-left="heat map" data-right="heat maps"
+  data-type="concept" data-signals="plural_variant, head_word_match"
+  data-score="0.94"
+  data-left-defs="[&quot;一种使用游戏内地图的空间事件可视化类型。&quot;, &quot;用于可视化数据分布的图形表示&quot;, &quot;以色调和阴影揭示总体模式与趋势的可视化方法&quot;]" data-right-defs="[&quot;用于分析基于团队的射击游戏关卡中空间动态的传统可视化方法。&quot;, &quot;一种数据可视化方法&quot;]">
+  <div class="card-header">
+    <span class="idx">#13</span>
+    <span class="pair-title">heat map <span class="vs">↔</span> heat maps</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A和实体B都指代同一种数据可视化概念，仅存在单复数形式的差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: heat map</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一种使用游戏内地图的空间事件可视化类型。</li><li>用于可视化数据分布的图形表示</li><li>以色调和阴影揭示总体模式与趋势的可视化方法</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: heat maps</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>用于分析基于团队的射击游戏关卡中空间动态的传统可视化方法。</li><li>一种数据可视化方法</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match
+      <span class="sys-label" style="margin-left:16px">得分：</span>0.94
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_659043018101','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_659043018101','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_659043018101','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_659043018101"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_4d77c7c4707c" data-verdict="correct"
+  data-left="Hidden Layer" data-right="hidden layer"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;位于输入层与输出层之间的中间处理层,记为 x^(j)。&quot;]" data-right-defs="[&quot;深度网络中的中间层,其输出是对输入的一种压缩编码。&quot;]">
+  <div class="card-header">
+    <span class="idx">#14</span>
+    <span class="pair-title">Hidden Layer <span class="vs">↔</span> hidden layer</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代神经网络中位于输入层和输出层之间的中间层，只是大小写和定义表述略有不同，表示同一概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Hidden Layer</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>位于输入层与输出层之间的中间处理层,记为 x^(j)。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: hidden layer</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>深度网络中的中间层,其输出是对输入的一种压缩编码。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_4d77c7c4707c','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_4d77c7c4707c','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_4d77c7c4707c','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_4d77c7c4707c"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_fdf663fde9e9" data-verdict="correct"
+  data-left="post-study questionnaire" data-right="Post-study questionnaires"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;研究后使用的问卷&quot;]" data-right-defs="[&quot;研究后使用的可用性评估问卷,用于实验性比较。&quot;]">
+  <div class="card-header">
+    <span class="idx">#15</span>
+    <span class="pair-title">post-study questionnaire <span class="vs">↔</span> Post-study questionnaires</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体都指代研究后使用的问卷，仅是单复数形式的差异，表示同一概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: post-study questionnaire</div>
+        <div class="entity-meta">类型: concept · 角色: method_or_task</div>
+        <ul class="def-list"><li>研究后使用的问卷</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Post-study questionnaires</div>
+        <div class="entity-meta">类型: concept · 角色: method_or_task</div>
+        <ul class="def-list"><li>研究后使用的可用性评估问卷,用于实验性比较。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_fdf663fde9e9','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_fdf663fde9e9','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_fdf663fde9e9','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_fdf663fde9e9"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_39a45fdb7e29" data-verdict="correct"
+  data-left="Backpropagation" data-right="backpropagation"
+  data-type="algorithm" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;用于求解神经网络优化问题的算法&quot;, &quot;现代用于训练神经网络的优化算法之一,在后续章节介绍。&quot;, &quot;一种用于计算神经网络训练所需梯度的方法,基于链式法则。&quot;]" data-right-defs="[&quot;通过链式法则有效计算目标函数梯度的算法。&quot;]">
+  <div class="card-header">
+    <span class="idx">#16</span>
+    <span class="pair-title">Backpropagation <span class="vs">↔</span> backpropagation</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 100%">
+      <span class="conf-bar" style="width:100px;background:#52c41a"></span>
+      <span class="conf-num">100%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体仅存在大小写差异，均指代基于链式法则计算神经网络梯度的同一算法。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Backpropagation</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>用于求解神经网络优化问题的算法</li><li>现代用于训练神经网络的优化算法之一,在后续章节介绍。</li><li>一种用于计算神经网络训练所需梯度的方法,基于链式法则。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: backpropagation</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>通过链式法则有效计算目标函数梯度的算法。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_39a45fdb7e29','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_39a45fdb7e29','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_39a45fdb7e29','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_39a45fdb7e29"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_8d09809da458" data-verdict="correct"
+  data-left="game mechanics" data-right="game mechanic"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;定义基础的游戏玩法活动,可以基于学习或评估机制&quot;, &quot;游戏环境中赋予玩家的各种行动、行为和控制机制,用于引导玩家达成目标&quot;, &quot;用于实例化评估机制和学习机制的游戏内部规则或系统。&quot;]" data-right-defs="[&quot;游戏中实现特定交互规则的具体构建模块。&quot;]">
+  <div class="card-header">
+    <span class="idx">#17</span>
+    <span class="pair-title">game mechanics <span class="vs">↔</span> game mechanic</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体分别表示单数和复数形式的同一概念，即游戏机制，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: game mechanics</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>定义基础的游戏玩法活动,可以基于学习或评估机制</li><li>游戏环境中赋予玩家的各种行动、行为和控制机制,用于引导玩家达成目标</li><li>用于实例化评估机制和学习机制的游戏内部规则或系统。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: game mechanic</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>游戏中实现特定交互规则的具体构建模块。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_8d09809da458','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_8d09809da458','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_8d09809da458','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_8d09809da458"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_323f24e302e4" data-verdict="correct"
+  data-left="support vector machine" data-right="support vector machines"
+  data-type="algorithm" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;用于分类的机器学习算法,通过优化确定超平面来分割数据&quot;]" data-right-defs="[&quot;一种分类算法&quot;]">
+  <div class="card-header">
+    <span class="idx">#18</span>
+    <span class="pair-title">support vector machine <span class="vs">↔</span> support vector machines</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A和实体B是同一算法的单复数形式，表示完全相同的概念，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: support vector machine</div>
+        <div class="entity-meta">类型: algorithm · 角色: structure</div>
+        <ul class="def-list"><li>用于分类的机器学习算法,通过优化确定超平面来分割数据</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: support vector machines</div>
+        <div class="entity-meta">类型: algorithm · 角色: structure</div>
+        <ul class="def-list"><li>一种分类算法</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_323f24e302e4','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_323f24e302e4','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_323f24e302e4','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_323f24e302e4"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_d9b1df9252d4" data-verdict="correct"
+  data-left="classification" data-right="Classification"
+  data-type="task" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;对图像(如猫狗)进行自动分类的任务&quot;, &quot;基于部分已标注数据,为域内所有数据构建标签的目标&quot;, &quot;分类任务,示例中是对字母字符图像进行分类。&quot;]" data-right-defs="[&quot;神经网络的目标任务,将输入数据映射到一个分类空间中&quot;, &quot;与分类相关的一般过程,涉及识别、区分和理解事物。&quot;]">
+  <div class="card-header">
+    <span class="idx">#19</span>
+    <span class="pair-title">classification <span class="vs">↔</span> Classification</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代机器学习中的分类任务，核心概念一致，仅存在大小写和描述详略的差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: classification</div>
+        <div class="entity-meta">类型: task · 角色: task</div>
+        <ul class="def-list"><li>对图像(如猫狗)进行自动分类的任务</li><li>基于部分已标注数据,为域内所有数据构建标签的目标</li><li>分类任务,示例中是对字母字符图像进行分类。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Classification</div>
+        <div class="entity-meta">类型: task · 角色: task</div>
+        <ul class="def-list"><li>神经网络的目标任务,将输入数据映射到一个分类空间中</li><li>与分类相关的一般过程,涉及识别、区分和理解事物。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_d9b1df9252d4','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_d9b1df9252d4','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_d9b1df9252d4','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_d9b1df9252d4"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_696b7cb34027" data-verdict="correct"
+  data-left="Boosting" data-right="boosting"
+  data-type="algorithm" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;通过调整难以分类数据的权重,将一系列弱学习器训练成强学习器的集成学习算法。&quot;, &quot;一种通过给前几轮模型中残差较大的记录分配更大权重,以拟合一系列模型的技术。&quot;, &quot;一类集成模型,通过序列拟合多个模型,并在后续轮次中给误差大的记录更多权重&quot;]" data-right-defs="[]">
+  <div class="card-header">
+    <span class="idx">#20</span>
+    <span class="pair-title">Boosting <span class="vs">↔</span> boosting</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A和实体B是同一集成学习算法的不同大小写形式，表示完全相同的概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Boosting</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>通过调整难以分类数据的权重,将一系列弱学习器训练成强学习器的集成学习算法。</li><li>一种通过给前几轮模型中残差较大的记录分配更大权重,以拟合一系列模型的技术。</li><li>一类集成模型,通过序列拟合多个模型,并在后续轮次中给误差大的记录更多权重</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: boosting</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li class="no-def">（无定义）</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_696b7cb34027','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_696b7cb34027','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_696b7cb34027','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_696b7cb34027"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_cd79239a03dc" data-verdict="correct"
+  data-left="usability problem" data-right="usability problems"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;可用性测试中发现的可用性问题&quot;]" data-right-defs="[&quot;用户尝试任务时遇到的、与界面相关的问题,即用户界面问题&quot;]">
+  <div class="card-header">
+    <span class="idx">#21</span>
+    <span class="pair-title">usability problem <span class="vs">↔</span> usability problems</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代可用性测试中发现的用户界面问题，仅存在单复数形式的差异，表示同一概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: usability problem</div>
+        <div class="entity-meta">类型: concept · 角色: task</div>
+        <ul class="def-list"><li>可用性测试中发现的可用性问题</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: usability problems</div>
+        <div class="entity-meta">类型: concept · 角色: task</div>
+        <ul class="def-list"><li>用户尝试任务时遇到的、与界面相关的问题,即用户界面问题</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_cd79239a03dc','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_cd79239a03dc','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_cd79239a03dc','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_cd79239a03dc"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_6acefb015a45" data-verdict="correct"
+  data-left="empathy map" data-right="empathy maps"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;一种对persona的修改表示形式,重点关注用户的情感和体验&quot;]" data-right-defs="[&quot;对目标群体核心特征的简洁清晰的总结&quot;]">
+  <div class="card-header">
+    <span class="idx">#22</span>
+    <span class="pair-title">empathy map <span class="vs">↔</span> empathy maps</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两者是同一概念的单复数形式，核心定义虽有侧重但高度相关，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: empathy map</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一种对persona的修改表示形式,重点关注用户的情感和体验</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: empathy maps</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>对目标群体核心特征的简洁清晰的总结</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_6acefb015a45','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_6acefb015a45','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_6acefb015a45','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_6acefb015a45"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_d5de3b69a8f2" data-verdict="correct"
+  data-left="Shatter Function" data-right="shatter function"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;对于集合系统(X,H),shatter函数π_H(n)是任何大小为n的集合A的子集的最大数量,这些子集可以表示为A与H中h的交集&quot;]" data-right-defs="[&quot;集合系统在大小为 n 的点集上能实现的最大不同子集数&quot;]">
+  <div class="card-header">
+    <span class="idx">#23</span>
+    <span class="pair-title">Shatter Function <span class="vs">↔</span> shatter function</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体描述的是计算学习理论中衡量集合系统复杂度的同一概念，仅存在大小写差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Shatter Function</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>对于集合系统(X,H),shatter函数π_H(n)是任何大小为n的集合A的子集的最大数量,这些子集可以表示为A与H中h的交集</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: shatter function</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>集合系统在大小为 n 的点集上能实现的最大不同子集数</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_d5de3b69a8f2','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_d5de3b69a8f2','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_d5de3b69a8f2','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_d5de3b69a8f2"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_68fee05623d6" data-verdict="correct"
+  data-left="AdaBoost" data-right="Adaboost"
+  data-type="algorithm" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;集成学习算法的一个例子,属于随机森林的一种形式&quot;, &quot;一种具体的Boosting算法,通过迭代调整数据权重来提升弱学习器的性能。&quot;]" data-right-defs="[&quot;一种基于根据残差重新加权数据的早期Boosting算法。&quot;]">
+  <div class="card-header">
+    <span class="idx">#24</span>
+    <span class="pair-title">AdaBoost <span class="vs">↔</span> Adaboost</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体是同一集成学习算法的不同大小写拼写变体。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: AdaBoost</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>集成学习算法的一个例子,属于随机森林的一种形式</li><li>一种具体的Boosting算法,通过迭代调整数据权重来提升弱学习器的性能。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Adaboost</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>一种基于根据残差重新加权数据的早期Boosting算法。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_68fee05623d6','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_68fee05623d6','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_68fee05623d6','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_68fee05623d6"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_b2bd638aad19" data-verdict="correct"
+  data-left="POD mode" data-right="POD modes"
+  data-type="concept" data-signals="plural_variant, head_word_match"
+  data-score="0.94"
+  data-left-defs="[&quot;本征正交分解得到的空间模式&quot;, &quot;通过SVD从仿真数据中生成的特征函数展开基&quot;]" data-right-defs="[&quot;通过POD从系统快照数据中识别出的最优模态&quot;, &quot;通过奇异值分解从数据矩阵中得到的低维空间基函数&quot;]">
+  <div class="card-header">
+    <span class="idx">#25</span>
+    <span class="pair-title">POD mode <span class="vs">↔</span> POD modes</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代本征正交分解（POD）方法产生的空间模态，仅存在单复数形式的差异，表示同一概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: POD mode</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>本征正交分解得到的空间模式</li><li>通过SVD从仿真数据中生成的特征函数展开基</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: POD modes</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>通过POD从系统快照数据中识别出的最优模态</li><li>通过奇异值分解从数据矩阵中得到的低维空间基函数</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match
+      <span class="sys-label" style="margin-left:16px">得分：</span>0.94
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_b2bd638aad19','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_b2bd638aad19','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_b2bd638aad19','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_b2bd638aad19"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_2e6f67a6d88b" data-verdict="correct"
+  data-left="stimulus" data-right="Stimulus"
+  data-type="concept" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;触发信息处理的输入,可以是光、声音、触觉、温度变化或化学物质&quot;]" data-right-defs="[&quot;一种对生物体(如感觉器官)的外在或内在影响,可引发不受意志控制的特定反应&quot;]">
+  <div class="card-header">
+    <span class="idx">#26</span>
+    <span class="pair-title">stimulus <span class="vs">↔</span> Stimulus</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代生物学或心理学中引发反应的“刺激”这一核心概念，仅存在大小写差异，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: stimulus</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>触发信息处理的输入,可以是光、声音、触觉、温度变化或化学物质</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Stimulus</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一种对生物体(如感觉器官)的外在或内在影响,可引发不受意志控制的特定反应</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_2e6f67a6d88b','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_2e6f67a6d88b','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_2e6f67a6d88b','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_2e6f67a6d88b"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_5d87236d1ec0" data-verdict="correct"
+  data-left="Density plot" data-right="density plot"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;直方图的平滑版本,常基于核密度估计。&quot;]" data-right-defs="[&quot;显示数据值分布为连续线的图;可视为平滑的直方图。&quot;]">
+  <div class="card-header">
+    <span class="idx">#27</span>
+    <span class="pair-title">Density plot <span class="vs">↔</span> density plot</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体仅首字母大小写不同，均指代基于核密度估计的数据分布可视化概念，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Density plot</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>直方图的平滑版本,常基于核密度估计。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: density plot</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>显示数据值分布为连续线的图;可视为平滑的直方图。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_5d87236d1ec0','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_5d87236d1ec0','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_5d87236d1ec0','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_5d87236d1ec0"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_4a7c6596f3a6" data-verdict="correct"
+  data-left="context of use analysis" data-right="Context of use analysis"
+  data-type="process" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;分析产品使用环境的过程,不应在考虑可用性和用户体验时被忽视&quot;, &quot;分析当前使用情境以确定未来使用情境&quot;, &quot;包括风险评估与记录的分析步骤&quot;]" data-right-defs="[&quot;关于理解当前情境,收集用户、目标、任务、资源和环境数据的分析。&quot;]">
+  <div class="card-header">
+    <span class="idx">#28</span>
+    <span class="pair-title">context of use analysis <span class="vs">↔</span> Context of use analysis</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体描述的是同一个用户体验设计中的分析过程，仅存在大小写差异，核心定义一致。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: context of use analysis</div>
+        <div class="entity-meta">类型: process · 角色: method_or_task</div>
+        <ul class="def-list"><li>分析产品使用环境的过程,不应在考虑可用性和用户体验时被忽视</li><li>分析当前使用情境以确定未来使用情境</li><li>包括风险评估与记录的分析步骤</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Context of use analysis</div>
+        <div class="entity-meta">类型: process · 角色: method_or_task</div>
+        <ul class="def-list"><li>关于理解当前情境,收集用户、目标、任务、资源和环境数据的分析。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_4a7c6596f3a6','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_4a7c6596f3a6','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_4a7c6596f3a6','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_4a7c6596f3a6"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_a1ccc01e8b16" data-verdict="correct"
+  data-left="user research" data-right="User research"
+  data-type="process" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;为了获取设计所需知识而进行的系统性研究。&quot;, &quot;以开发优秀的系统、产品和服务为目标的活动。&quot;]" data-right-defs="[&quot;通过重点观察、提问和倾听来生成用户数据。&quot;]">
+  <div class="card-header">
+    <span class="idx">#29</span>
+    <span class="pair-title">user research <span class="vs">↔</span> User research</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体表面形式一致，均指代以用户为中心、为设计获取知识的系统性研究过程，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: user research</div>
+        <div class="entity-meta">类型: process · 角色: process</div>
+        <ul class="def-list"><li>为了获取设计所需知识而进行的系统性研究。</li><li>以开发优秀的系统、产品和服务为目标的活动。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: User research</div>
+        <div class="entity-meta">类型: process · 角色: process</div>
+        <ul class="def-list"><li>通过重点观察、提问和倾听来生成用户数据。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_a1ccc01e8b16','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_a1ccc01e8b16','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_a1ccc01e8b16','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_a1ccc01e8b16"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_2f27e4769640" data-verdict="correct"
+  data-left="high pass filter" data-right="high-pass filter"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;用于衰减低频弱信号(如选择10, 20, 30 Hz)以去除串扰等噪声的滤波器&quot;]" data-right-defs="[&quot;用于滤除信号均值(直流分量)的滤波器。&quot;]">
+  <div class="card-header">
+    <span class="idx">#30</span>
+    <span class="pair-title">high pass filter <span class="vs">↔</span> high-pass filter</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两者是同一概念（高通滤波器）的不同书写形式，定义虽有侧重但核心功能一致。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: high pass filter</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>用于衰减低频弱信号(如选择10, 20, 30 Hz)以去除串扰等噪声的滤波器</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: high-pass filter</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>用于滤除信号均值(直流分量)的滤波器。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_2f27e4769640','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_2f27e4769640','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_2f27e4769640','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_2f27e4769640"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_1837e84bd2ed" data-verdict="correct"
+  data-left="Conversion Rate" data-right="Conversion rate"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;免费玩家转化为付费玩家所占的百分比,是衡量免费游戏的关键指标。&quot;, &quot;从查看广告或使用免费试用版到成为付费客户的用户百分比。&quot;]" data-right-defs="[&quot;执行期望操作的用户占总用户数的百分比。&quot;]">
+  <div class="card-header">
+    <span class="idx">#31</span>
+    <span class="pair-title">Conversion Rate <span class="vs">↔</span> Conversion rate</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 90%">
+      <span class="conf-bar" style="width:90px;background:#52c41a"></span>
+      <span class="conf-num">90%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体都指代衡量用户完成特定期望操作（如付费、注册）比率的通用商业指标，核心概念一致，仅定义范围略有宽窄之分。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Conversion Rate</div>
+        <div class="entity-meta">类型: concept · 角色: metric</div>
+        <ul class="def-list"><li>免费玩家转化为付费玩家所占的百分比,是衡量免费游戏的关键指标。</li><li>从查看广告或使用免费试用版到成为付费客户的用户百分比。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Conversion rate</div>
+        <div class="entity-meta">类型: concept · 角色: metric</div>
+        <ul class="def-list"><li>执行期望操作的用户占总用户数的百分比。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_1837e84bd2ed','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_1837e84bd2ed','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_1837e84bd2ed','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_1837e84bd2ed"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_50eebe619deb" data-verdict="correct"
+  data-left="heatmaps" data-right="Heatmaps"
+  data-type="concept" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;基于游戏变量快速创建的2D可视化或3D粒子云呈现&quot;, &quot;一种简单的空间数据可视化形式&quot;]" data-right-defs="[&quot;一种将地图划分为网格(如16×16)的可视化,网格单元的饱和度或透明度取决于其中的事件数量&quot;]">
+  <div class="card-header">
+    <span class="idx">#32</span>
+    <span class="pair-title">heatmaps <span class="vs">↔</span> Heatmaps</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体都是指代同一种数据可视化概念，即用颜色密度表示事件或变量在空间上分布的热力图，仅定义描述的角度和细节略有不同。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: heatmaps</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>基于游戏变量快速创建的2D可视化或3D粒子云呈现</li><li>一种简单的空间数据可视化形式</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Heatmaps</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一种将地图划分为网格(如16×16)的可视化,网格单元的饱和度或透明度取决于其中的事件数量</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_50eebe619deb','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_50eebe619deb','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_50eebe619deb','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_50eebe619deb"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_b5af0e417490" data-verdict="correct"
+  data-left="wireframe" data-right="Wireframe"
+  data-type="concept" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;以示意形式表现屏幕基本结构的图,不含视觉设计,只展示元素间关系&quot;, &quot;用于规划和构建用户界面的结构化视觉草图或蓝图&quot;, &quot;线框图,作为设计各个视觉元素的理想基础&quot;]" data-right-defs="[&quot;屏幕的基本结构,以示意图形式表示,通常不包含视觉设计。&quot;]">
+  <div class="card-header">
+    <span class="idx">#33</span>
+    <span class="pair-title">wireframe <span class="vs">↔</span> Wireframe</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代用户界面设计中的线框图概念，定义描述的核心内容一致，仅存在大小写和描述详略的差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: wireframe</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>以示意形式表现屏幕基本结构的图,不含视觉设计,只展示元素间关系</li><li>用于规划和构建用户界面的结构化视觉草图或蓝图</li><li>线框图,作为设计各个视觉元素的理想基础</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Wireframe</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>屏幕的基本结构,以示意图形式表示,通常不包含视觉设计。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_b5af0e417490','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_b5af0e417490','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_b5af0e417490','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_b5af0e417490"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_1f78ab89faf4" data-verdict="correct"
+  data-left="l1范数" data-right="L1范数"
+  data-type="concept" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;用于正则化统计回归,能惩罚异常值并促进稀疏模型。&quot;]" data-right-defs="[]">
+  <div class="card-header">
+    <span class="idx">#34</span>
+    <span class="pair-title">l1范数 <span class="vs">↔</span> L1范数</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 100%">
+      <span class="conf-bar" style="width:100px;background:#52c41a"></span>
+      <span class="conf-num">100%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A与实体B仅存在大小写差异，均指代数学中的同一种向量范数概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: l1范数</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>用于正则化统计回归,能惩罚异常值并促进稀疏模型。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: L1范数</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li class="no-def">（无定义）</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_1f78ab89faf4','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_1f78ab89faf4','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_1f78ab89faf4','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_1f78ab89faf4"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_c0975e96fa74" data-verdict="correct"
+  data-left="distance metric" data-right="distance metrics"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment, definition_overlap"
+  data-score="1.3199999999999998"
+  data-left-defs="[&quot;用于衡量数据点之间距离的度量方法。&quot;, &quot;用单个数字衡量一条记录与另一条记录距离的度量方法&quot;]" data-right-defs="[&quot;用于衡量数据点之间距离的度量标准&quot;]">
+  <div class="card-header">
+    <span class="idx">#35</span>
+    <span class="pair-title">distance metric <span class="vs">↔</span> distance metrics</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A（单数形式）与实体B（复数形式）均指代用于衡量数据点之间距离的同一类度量方法，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: distance metric</div>
+        <div class="entity-meta">类型: concept · 角色: metric</div>
+        <ul class="def-list"><li>用于衡量数据点之间距离的度量方法。</li><li>用单个数字衡量一条记录与另一条记录距离的度量方法</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: distance metrics</div>
+        <div class="entity-meta">类型: concept · 角色: metric</div>
+        <ul class="def-list"><li>用于衡量数据点之间距离的度量标准</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment, definition_overlap
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.3199999999999998
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_c0975e96fa74','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_c0975e96fa74','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_c0975e96fa74','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_c0975e96fa74"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_1d0816e54d21" data-verdict="correct"
+  data-left="Overfitting" data-right="over-fitting"
+  data-type="concept" data-signals="surface_key_match"
+  data-score="0.9"
+  data-left-defs="[&quot;过度拟合了数据中的噪声。&quot;, &quot;Boosting容易发生的、需要通过调参来避免的问题&quot;]" data-right-defs="[&quot;过拟合,模型在训练集上误差减小但在保留集上误差增加的现象&quot;]">
+  <div class="card-header">
+    <span class="idx">#36</span>
+    <span class="pair-title">Overfitting <span class="vs">↔</span> over-fitting</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指机器学习中模型过度拟合训练数据而泛化能力下降的同一概念，仅拼写和描述角度略有差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Overfitting</div>
+        <div class="entity-meta">类型: concept · 角色: method_or_task</div>
+        <ul class="def-list"><li>过度拟合了数据中的噪声。</li><li>Boosting容易发生的、需要通过调参来避免的问题</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: over-fitting</div>
+        <div class="entity-meta">类型: concept · 角色: method_or_task</div>
+        <ul class="def-list"><li>过拟合,模型在训练集上误差减小但在保留集上误差增加的现象</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match
+      <span class="sys-label" style="margin-left:16px">得分：</span>0.9
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_1d0816e54d21','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_1d0816e54d21','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_1d0816e54d21','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_1d0816e54d21"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_ee0b05cf96dd" data-verdict="correct"
+  data-left="usability and UX design" data-right="Usability and UX design"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;一种将用户和其他利益相关者置于兴趣中心的、迭代的、以人为中心的过程&quot;, &quot;一种可视为过程的设计活动,需要多种设计技能而不仅是视觉设计&quot;]" data-right-defs="[&quot;一个需要多种不同技能的跨学科领域&quot;]">
+  <div class="card-header">
+    <span class="idx">#37</span>
+    <span class="pair-title">usability and UX design <span class="vs">↔</span> Usability and UX design</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体名称完全一致，仅大小写不同，且定义均指向同一跨学科设计概念，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: usability and UX design</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一种将用户和其他利益相关者置于兴趣中心的、迭代的、以人为中心的过程</li><li>一种可视为过程的设计活动,需要多种设计技能而不仅是视觉设计</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Usability and UX design</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一个需要多种不同技能的跨学科领域</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_ee0b05cf96dd','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_ee0b05cf96dd','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_ee0b05cf96dd','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_ee0b05cf96dd"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_1572012ea165" data-verdict="correct"
+  data-left="multiple-choice question" data-right="Multiple-choice questions"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;一种问题形式,提供一个问题和多个答案选项。&quot;, &quot;一种问卷题目类型,允许受访者在预设选项中选择一个或多个答案&quot;]" data-right-defs="[]">
+  <div class="card-header">
+    <span class="idx">#38</span>
+    <span class="pair-title">multiple-choice question <span class="vs">↔</span> Multiple-choice questions</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体是同一概念的单复数形式，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: multiple-choice question</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一种问题形式,提供一个问题和多个答案选项。</li><li>一种问卷题目类型,允许受访者在预设选项中选择一个或多个答案</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Multiple-choice questions</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li class="no-def">（无定义）</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_1572012ea165','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_1572012ea165','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_1572012ea165','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_1572012ea165"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_3e048092d09c" data-verdict="correct"
+  data-left="stakeholders" data-right="Stakeholders"
+  data-type="concept" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;对游戏分析有兴趣并受其影响的不同学科背景的团队成员或角色&quot;, &quot;影响或参与游戏开发过程的各类群体&quot;, &quot;受益于度量研究的群体,可能与发起研究的群体不同&quot;]" data-right-defs="[&quot;对开发成果有直接或间接利益,并有合法利益影响开发的人&quot;]">
+  <div class="card-header">
+    <span class="idx">#39</span>
+    <span class="pair-title">stakeholders <span class="vs">↔</span> Stakeholders</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代“利益相关者”这一核心概念，定义虽有侧重但本质相同，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: stakeholders</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>对游戏分析有兴趣并受其影响的不同学科背景的团队成员或角色</li><li>影响或参与游戏开发过程的各类群体</li><li>受益于度量研究的群体,可能与发起研究的群体不同</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Stakeholders</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>对开发成果有直接或间接利益,并有合法利益影响开发的人</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_3e048092d09c','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_3e048092d09c','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_3e048092d09c','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_3e048092d09c"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_373d6a782f6d" data-verdict="correct"
+  data-left="alternating directions method" data-right="Alternating Directions Method"
+  data-type="algorithm" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;一种为该系统寻找低秩矩阵和稀疏矩阵的简单过程。&quot;]" data-right-defs="[&quot;一种用于求解RPCA的迭代算法&quot;]">
+  <div class="card-header">
+    <span class="idx">#40</span>
+    <span class="pair-title">alternating directions method <span class="vs">↔</span> Alternating Directions Method</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体名称完全一致，仅大小写不同，且定义均指向求解低秩矩阵分解（如RPCA）的迭代算法，描述的是同一概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: alternating directions method</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>一种为该系统寻找低秩矩阵和稀疏矩阵的简单过程。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Alternating Directions Method</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>一种用于求解RPCA的迭代算法</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_373d6a782f6d','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_373d6a782f6d','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_373d6a782f6d','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_373d6a782f6d"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_9767e378e6ce" data-verdict="correct"
+  data-left="Net Promoter Score" data-right="Net Promoter Scores"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;基于单个客户忠诚度问题计算的评分,范围为-100%至100%&quot;, &quot;一种将连续评分量表数据转换为离散的顶部两框评分的忠诚度衡量指标&quot;, &quot;一种衡量用户/客户是否愿意向他人推荐某个系统、产品或服务的指标。&quot;]" data-right-defs="[&quot;净推荐值,通过LTR问题测量&quot;]">
+  <div class="card-header">
+    <span class="idx">#41</span>
+    <span class="pair-title">Net Promoter Score <span class="vs">↔</span> Net Promoter Scores</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A和实体B均指代同一个客户忠诚度度量概念，仅存在单复数形式的表面差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Net Promoter Score</div>
+        <div class="entity-meta">类型: concept · 角色: metric</div>
+        <ul class="def-list"><li>基于单个客户忠诚度问题计算的评分,范围为-100%至100%</li><li>一种将连续评分量表数据转换为离散的顶部两框评分的忠诚度衡量指标</li><li>一种衡量用户/客户是否愿意向他人推荐某个系统、产品或服务的指标。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Net Promoter Scores</div>
+        <div class="entity-meta">类型: concept · 角色: metric</div>
+        <ul class="def-list"><li>净推荐值,通过LTR问题测量</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_9767e378e6ce','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_9767e378e6ce','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_9767e378e6ce','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_9767e378e6ce"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_c043e67caf25" data-verdict="correct"
+  data-left="choropleth map" data-right="choropleth maps"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;通过为已定义区域分配颜色深浅来编码信息的地图。&quot;, &quot;一种用于展示地理区域数据的地图。&quot;]" data-right-defs="[&quot;一种地图,使用颜色或阴影表示区域数据的变化&quot;]">
+  <div class="card-header">
+    <span class="idx">#42</span>
+    <span class="pair-title">choropleth map <span class="vs">↔</span> choropleth maps</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A和实体B是同一个概念，仅存在单复数形式的差异，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: choropleth map</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>通过为已定义区域分配颜色深浅来编码信息的地图。</li><li>一种用于展示地理区域数据的地图。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: choropleth maps</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一种地图,使用颜色或阴影表示区域数据的变化</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_c043e67caf25','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_c043e67caf25','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_c043e67caf25','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_c043e67caf25"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_2743b6e50a5b" data-verdict="correct"
+  data-left="factor graph" data-right="Factor Graph"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;表示变量与函数因子关系的图结构&quot;, &quot;用于表示问题约束的图模型&quot;, &quot;用于表示SAT问题的图,包含变量节点和因子节点&quot;]" data-right-defs="[&quot;表示函数分解为多个因子乘积的双边图。&quot;]">
+  <div class="card-header">
+    <span class="idx">#43</span>
+    <span class="pair-title">factor graph <span class="vs">↔</span> Factor Graph</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代表示变量与函数因子关系的图模型，只是大小写和定义侧重点不同，本质是同一概念。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: factor graph</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>表示变量与函数因子关系的图结构</li><li>用于表示问题约束的图模型</li><li>用于表示SAT问题的图,包含变量节点和因子节点</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Factor Graph</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>表示函数分解为多个因子乘积的双边图。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_2743b6e50a5b','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_2743b6e50a5b','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_2743b6e50a5b','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_2743b6e50a5b"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_e7af68adf5f2" data-verdict="correct"
+  data-left="mindset" data-right="Mindset"
+  data-type="concept" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;指固定型心态与成长型心态的玩家分类理论&quot;, &quot;在可用性和用户体验领域工作中被证明成功且有益的思想倾向&quot;, &quot;一个人处理一个主题时所持的态度和期望&quot;]" data-right-defs="[&quot;一个人处理某个主题时所持有的态度和期望。&quot;]">
+  <div class="card-header">
+    <span class="idx">#44</span>
+    <span class="pair-title">mindset <span class="vs">↔</span> Mindset</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指代“心态”这一概念，实体A的定义包含了实体B的定义，且核心语义一致，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: mindset</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>指固定型心态与成长型心态的玩家分类理论</li><li>在可用性和用户体验领域工作中被证明成功且有益的思想倾向</li><li>一个人处理一个主题时所持的态度和期望</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Mindset</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>一个人处理某个主题时所持有的态度和期望。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_e7af68adf5f2','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_e7af68adf5f2','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_e7af68adf5f2','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_e7af68adf5f2"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_649494c29e5c" data-verdict="correct"
+  data-left="Medical device" data-right="medical devices"
+  data-type="concept" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;根据其预期用途,用于医疗目的(即用于检测、治疗或预防疾病)的产品。&quot;]" data-right-defs="[&quot;特殊的设备领域,可用性问题可能导致比其他产品设计更严重的后果。&quot;]">
+  <div class="card-header">
+    <span class="idx">#45</span>
+    <span class="pair-title">Medical device <span class="vs">↔</span> medical devices</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体是同一概念的单复数形式，核心定义均指向用于医疗目的的设备，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Medical device</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>根据其预期用途,用于医疗目的(即用于检测、治疗或预防疾病)的产品。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: medical devices</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>特殊的设备领域,可用性问题可能导致比其他产品设计更严重的后果。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_649494c29e5c','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_649494c29e5c','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_649494c29e5c','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_649494c29e5c"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_ac2a65d66666" data-verdict="correct"
+  data-left="genetic algorithm" data-right="genetic algorithms"
+  data-type="algorithm" data-signals="plural_variant, head_word_match, surface_containment"
+  data-score="1.16"
+  data-left-defs="[&quot;用于优化PID控制器参数以最小化成本函数的一种优化算法&quot;]" data-right-defs="[&quot;用于控制的具体机器学习方法&quot;]">
+  <div class="card-header">
+    <span class="idx">#46</span>
+    <span class="pair-title">genetic algorithm <span class="vs">↔</span> genetic algorithms</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两者都是指遗传算法，只是单复数形式的差异，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: genetic algorithm</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>用于优化PID控制器参数以最小化成本函数的一种优化算法</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: genetic algorithms</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>用于控制的具体机器学习方法</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>plural_variant, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.16
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_ac2a65d66666','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_ac2a65d66666','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_ac2a65d66666','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_ac2a65d66666"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_082477141743" data-verdict="correct"
+  data-left="p-value" data-right="P value"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;在零假设成立的条件下,获得与观察结果同样极端或更极端结果的概率&quot;, &quot;给定零假设模型时,出现与观察结果同样极端结果的概率&quot;, &quot;在原假设下观测到检验统计量(如F统计量)至少如实际观测值一样极端的概率。&quot;]" data-right-defs="[&quot;统计显著性值或概率值&quot;]">
+  <div class="card-header">
+    <span class="idx">#47</span>
+    <span class="pair-title">p-value <span class="vs">↔</span> P value</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 99%">
+      <span class="conf-bar" style="width:99px;background:#52c41a"></span>
+      <span class="conf-num">99%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>实体A和实体B是同一统计学术语&#x27;p值&#x27;的不同大小写形式，定义核心一致。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: p-value</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>在零假设成立的条件下,获得与观察结果同样极端或更极端结果的概率</li><li>给定零假设模型时,出现与观察结果同样极端结果的概率</li><li>在原假设下观测到检验统计量(如F统计量)至少如实际观测值一样极端的概率。</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: P value</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>统计显著性值或概率值</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_082477141743','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_082477141743','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_082477141743','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_082477141743"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_9af49fcc1f3e" data-verdict="correct"
+  data-left="bagging" data-right="Bagging"
+  data-type="algorithm" data-signals="surface_key_match, surface_containment"
+  data-score="1.12"
+  data-left-defs="[&quot;在多个自助法数据集上建立的决策树模型的预测进行平均的过程&quot;, &quot;从记录中进行有放回的自助抽样&quot;]" data-right-defs="[&quot;一种通过自助采样生成多个独立个体学习器并进行组合的集成学习算法&quot;]">
+  <div class="card-header">
+    <span class="idx">#48</span>
+    <span class="pair-title">bagging <span class="vs">↔</span> Bagging</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 100%">
+      <span class="conf-bar" style="width:100px;background:#52c41a"></span>
+      <span class="conf-num">100%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体描述的是同一个集成学习算法，仅存在大小写差异。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: bagging</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>在多个自助法数据集上建立的决策树模型的预测进行平均的过程</li><li>从记录中进行有放回的自助抽样</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Bagging</div>
+        <div class="entity-meta">类型: algorithm · 角色: algorithm</div>
+        <ul class="def-list"><li>一种通过自助采样生成多个独立个体学习器并进行组合的集成学习算法</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.12
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_9af49fcc1f3e','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_9af49fcc1f3e','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_9af49fcc1f3e','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_9af49fcc1f3e"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_525dd6ed99c8" data-verdict="correct"
+  data-left="Context of Use Analysis" data-right="Context of use analysis"
+  data-type="process" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;分析活动序列的方法&quot;]" data-right-defs="[&quot;关于理解当前情境,收集用户、目标、任务、资源和环境数据的分析。&quot;]">
+  <div class="card-header">
+    <span class="idx">#49</span>
+    <span class="pair-title">Context of Use Analysis <span class="vs">↔</span> Context of use analysis</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 90%">
+      <span class="conf-bar" style="width:90px;background:#52c41a"></span>
+      <span class="conf-num">90%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体名称仅大小写和连字符差异，且定义均指向分析用户情境和活动的方法，核心概念一致。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: Context of Use Analysis</div>
+        <div class="entity-meta">类型: process · 角色: method_or_task</div>
+        <ul class="def-list"><li>分析活动序列的方法</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: Context of use analysis</div>
+        <div class="entity-meta">类型: process · 角色: method_or_task</div>
+        <ul class="def-list"><li>关于理解当前情境,收集用户、目标、任务、资源和环境数据的分析。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_525dd6ed99c8','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_525dd6ed99c8','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_525dd6ed99c8','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_525dd6ed99c8"></span>
+    </div>
+  </div>
+</div>
+<div class="card" id="cand_7cbc66e6c80f" data-verdict="correct"
+  data-left="user stories" data-right="User stories"
+  data-type="concept" data-signals="surface_key_match, head_word_match, surface_containment"
+  data-score="1.24"
+  data-left-defs="[&quot;从用户角度表述的对系统、产品或服务的需求,遵循特定格式。&quot;, &quot;从用户角度描述产品功能需求的简短陈述&quot;]" data-right-defs="[&quot;记录需求最常用的方式之一,其结构化表述可描述功能对特定目标群体的价值。&quot;]">
+  <div class="card-header">
+    <span class="idx">#50</span>
+    <span class="pair-title">user stories <span class="vs">↔</span> User stories</span>
+    <span class="badge v-correct">✅ 合并正确</span>
+    <span class="conf-wrap" title="AI置信度 95%">
+      <span class="conf-bar" style="width:95px;background:#52c41a"></span>
+      <span class="conf-num">95%</span>
+    </span>
+    <button class="toggle-btn" onclick="toggleCard(this)">展开 ▼</button>
+  </div>
+  <div class="card-body collapsed">
+    <div class="ai-reason">
+      <strong>AI 判断：</strong>两个实体均指敏捷开发中用于描述需求的同一概念，仅存在大小写差异，合并不会造成语义损失。
+    </div>
+    <div class="entity-grid">
+      <div class="entity-col">
+        <div class="entity-name">A: user stories</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>从用户角度表述的对系统、产品或服务的需求,遵循特定格式。</li><li>从用户角度描述产品功能需求的简短陈述</li></ul>
+      </div>
+      <div class="entity-col">
+        <div class="entity-name">B: User stories</div>
+        <div class="entity-meta">类型: concept · 角色: concept</div>
+        <ul class="def-list"><li>记录需求最常用的方式之一,其结构化表述可描述功能对特定目标群体的价值。</li></ul>
+      </div>
+    </div>
+    <div class="sys-row">
+      <span class="sys-label">合并信号：</span>surface_key_match, head_word_match, surface_containment
+      <span class="sys-label" style="margin-left:16px">得分：</span>1.24
+      <span class="sys-label" style="margin-left:16px">系统理由：</span>scored_merge
+    </div>
+    <div class="decision-row">
+      <span class="decision-label">你的判断：</span>
+      <button class="dec-btn dec-correct"   onclick="markDecision('cand_7cbc66e6c80f','correct')">✅ 合并正确</button>
+      <button class="dec-btn dec-wrong"     onclick="markDecision('cand_7cbc66e6c80f','wrong')">❌ 合并错误</button>
+      <button class="dec-btn dec-skip"      onclick="markDecision('cand_7cbc66e6c80f','skip')">⏭ 跳过</button>
+      <span class="decision-result" id="dec-cand_7cbc66e6c80f"></span>
+    </div>
+  </div>
+</div>
+</div>
+<textarea id="export-area"></textarea>
+
+<script>
+const decisions = {};
+let judgedCount = 0;
+
+function toggleCard(btn) {
+  const body = btn.closest('.card').querySelector('.card-body');
+  const collapsed = body.classList.toggle('collapsed');
+  btn.textContent = collapsed ? '展开 ▼' : '收起 ▲';
+}
+
+function markDecision(cid, val) {
+  const prev = decisions[cid];
+  decisions[cid] = val;
+  if (!prev) { judgedCount++; document.getElementById('judged-count').textContent = judgedCount; }
+  const el = document.getElementById('dec-' + cid);
+  const labels = {correct:'✅ 标记正确', wrong:'❌ 标记错误', skip:'⏭ 跳过'};
+  el.textContent = labels[val] || val;
+  el.style.color = val==='correct' ? '#52c41a' : val==='wrong' ? '#ff4d4f' : '#aaa';
+  const card = document.getElementById(cid);
+  card.querySelectorAll('.dec-btn').forEach(b => b.classList.remove('active'));
+  card.querySelector('.dec-' + val)?.classList.add('active');
+}
+
+function exportDecisions() {
+  const out = [];
+  document.querySelectorAll('.card').forEach(card => {
+    const d = card.dataset;
+    const cid = card.id;
+    const aiVerdict = d.verdict;
+    const final = decisions[cid] || aiVerdict;
+    let ldefs = [], rdefs = [];
+    try { ldefs = JSON.parse(d.leftDefs  || '[]'); } catch(e) {}
+    try { rdefs = JSON.parse(d.rightDefs || '[]'); } catch(e) {}
+    out.push({
+      candidate_id:      cid,
+      verdict:           final,
+      left_name:         d.left,
+      right_name:        d.right,
+      entity_type:       d.type,
+      signals:           d.signals,
+      system_score:      parseFloat(d.score) || null,
+      left_definitions:  ldefs,
+      right_definitions: rdefs,
+    });
+  });
+  const wrong = out.filter(o => o.verdict === 'wrong').length;
+  const textarea = document.getElementById('export-area');
+  textarea.style.display = 'block';
+  textarea.value = JSON.stringify(out, null, 2);
+  textarea.select();
+  document.execCommand('copy');
+  alert(`已复制！共 ${out.length} 条，其中判断为错误合并: ${wrong} 条`);
+}
+
+let activeFilter = 'all', searchTerm = '';
+function applyFilter() {
+  document.querySelectorAll('.card').forEach(card => {
+    const v = card.dataset.verdict;
+    const t = card.querySelector('.pair-title').textContent.toLowerCase();
+    const fOk = activeFilter === 'all' || v === activeFilter;
+    const sOk = !searchTerm || t.includes(searchTerm);
+    card.classList.toggle('hidden', !(fOk && sOk));
+  });
+}
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    applyFilter();
+  });
+});
+document.getElementById('search').addEventListener('input', ev => {
+  searchTerm = ev.target.value.toLowerCase();
+  applyFilter();
+});
+</script>
+</body>
+</html>

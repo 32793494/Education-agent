@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>任务11 中文书籍实体评估报告</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       background: #f6f8fa; color: #1f2328; font-size: 14px; }
+.container { max-width: 1280px; margin: 0 auto; padding: 24px; }
+h1 { font-size: 22px; margin-bottom: 4px; }
+.sub { color: #57606a; margin-bottom: 24px; font-size: 13px; }
+.stats { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+.stat { background: #fff; border: 1px solid #d0d7de; border-radius: 8px; padding: 14px 18px; min-width: 130px; }
+.stat .num { font-size: 26px; font-weight: 700; }
+.stat .label { font-size: 12px; color: #57606a; margin-top: 2px; }
+.stat.blue .num { color: #0969da; }
+.stat.green .num { color: #2da44e; }
+.stat.orange .num { color: #bc4c00; }
+.stat.red .num { color: #cf222e; }
+.section { background: #fff; border: 1px solid #d0d7de; border-radius: 8px; margin-bottom: 18px; }
+.sec-head { padding: 14px 18px; border-bottom: 1px solid #d0d7de; }
+.sec-head h2 { font-size: 15px; }
+.sec-body { padding: 16px 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #f6f8fa; text-align: left; padding: 7px 10px; border: 1px solid #d0d7de;
+     font-weight: 600; position: sticky; top: 0; z-index: 1; }
+td { padding: 7px 10px; border: 1px solid #d0d7de; vertical-align: top; }
+tr:nth-child(even) td { background: #f6f8fa; }
+.tip { background: #ddf4ff; border: 1px solid #54aeff; border-radius: 6px;
+       padding: 9px 13px; margin-bottom: 12px; font-size: 13px; }
+.warn { background: #fff8c5; border: 1px solid #d4a72c; border-radius: 6px;
+        padding: 9px 13px; margin-bottom: 12px; font-size: 13px; }
+.danger { background: #ffebe9; border: 1px solid #ff8182; border-radius: 6px;
+          padding: 9px 13px; margin-bottom: 12px; font-size: 13px; }
+code { background: #eaeef2; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>任务11 — 中文书籍实体去重评估报告</h1>
+<p class="sub">基线：round_07_all15_merge_v7 &nbsp;·&nbsp; 专注中文书籍（09–15）的合并效果与潜在漏合并</p>
+
+<div class="stats"><div class="stat blue"><div class="num">3111</div><div class="label">7本中文书实体总量</div></div><div class="stat blue"><div class="num">92</div><div class="label">跨中文书 cluster</div></div><div class="stat blue"><div class="num">20</div><div class="label">中英混合合并</div></div><div class="stat blue"><div class="num">3</div><div class="label">纯中文书合并</div></div><div class="stat blue"><div class="num">419</div><div class="label">完全重复名称</div></div><div class="stat blue"><div class="num">429</div><div class="label">潜在前缀相似组</div></div></div>
+
+<div class="section">
+  <div class="sec-head"><h2>各中文书实体数量</h2></div>
+  <div class="sec-body">
+    <table style="width:300px"><thead><tr><th>书籍</th><th>实体数</th></tr></thead>
+    <tbody><tr><td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span></td><td style="text-align:right">342</td></tr><tr><td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td><td style="text-align:right">375</td></tr><tr><td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span></td><td style="text-align:right">171</td></tr><tr><td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td><td style="text-align:right">478</td></tr><tr><td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td><td style="text-align:right">1170</td></tr><tr><td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td><td style="text-align:right">560</td></tr><tr><td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">15_AB测试设计</span></td><td style="text-align:right">15</td></tr></tbody></table>
+  </div>
+</div>
+
+
+<div class="section">
+  <div class="sec-head"><h2>一、中英混合合并（中文概念名 ↔ 英文名）</h2></div>
+  <div class="sec-body">
+    <div class="tip">✅ <strong>已成功合并：</strong>这些是跨语言被合并的实体，如「机器学习 ↔ machine learning」。检查合并是否正确，有没有将不同概念错误合并。</div>
+    <p style="color:#57606a;margin-bottom:10px">共 20 条</p>
+    <table><thead><tr>
+      <th style="width:20%">规范名</th><th style="width:9%">类型</th>
+      <th style="width:7%">词形数</th><th style="width:7%">出现次数</th>
+      <th style="width:35%">所有词形</th><th style="width:22%">来源书籍</th>
+    </tr></thead><tbody><tr>
+              <td><strong>principal component analysis</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">5</td>
+              <td style="text-align:center">27</td>
+              <td><code>主成分分析</code> / <code>principal component analysis</code> / <code>principal components analysis</code> / <code>PCA</code> / <code>Principal Component Analysis</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>singular value decomposition</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">4</td>
+              <td style="text-align:center">50</td>
+              <td><code>奇异值分解</code> / <code>singular value decomposition</code> / <code>SVD</code> / <code>Singular Value Decomposition</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>machine learning</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center">12</td>
+              <td><code>机器学习</code> / <code>machine learning</code> / <code>Machine learning</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>MapReduce</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center">5</td>
+              <td><code>Map Reduce</code> / <code>MapReduce</code> / <code>Map/Reduce</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>map</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center">4</td>
+              <td><code>map</code> / <code>MAP</code> / <code>Map</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>standard deviation</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">14</td>
+              <td><code>standard deviation</code> / <code>标准差</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>clustering</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">7</td>
+              <td><code>聚类</code> / <code>clustering</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>supervised learning</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">7</td>
+              <td><code>监督学习</code> / <code>supervised learning</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>K-means</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">6</td>
+              <td><code>K-means</code> / <code>k-means</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>Boosting</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">5</td>
+              <td><code>Boosting</code> / <code>boosting</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>K均值聚类</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">5</td>
+              <td><code>K均值聚类</code> / <code>k均值聚类</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>bagging</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">4</td>
+              <td><code>bagging</code> / <code>Bagging</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>unsupervised learning</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">4</td>
+              <td><code>unsupervised learning</code> / <code>无监督学习</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>k-means聚类</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">3</td>
+              <td><code>k-means聚类</code> / <code>k-Means 聚类</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>model</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">3</td>
+              <td><code>model</code> / <code>Model</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>topic</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">3</td>
+              <td><code>topic</code> / <code>Topic</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>K-means算法</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">2</td>
+              <td><code>K-means算法</code> / <code>K-Means算法</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>K值</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">2</td>
+              <td><code>K值</code> / <code>k值</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>panel</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">2</td>
+              <td><code>panel</code> / <code>Panel</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>type</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">2</td>
+              <td><code>type</code> / <code>Type</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr></tbody></table>
+  </div>
+</div>
+
+
+<div class="section">
+  <div class="sec-head"><h2>二、纯中文书内部合并（中文词形变体）</h2></div>
+  <div class="sec-body">
+    <div class="tip">✅ <strong>已成功合并：</strong>中文书籍内部的词形变体合并，如大小写、括号缩写等。</div>
+    <p style="color:#57606a;margin-bottom:10px">共 3 条</p>
+    <table><thead><tr>
+      <th style="width:20%">规范名</th><th style="width:9%">类型</th>
+      <th style="width:7%">词形数</th><th style="width:7%">出现次数</th>
+      <th style="width:35%">所有词形</th><th style="width:22%">来源书籍</th>
+    </tr></thead><tbody><tr>
+              <td><strong>PRA</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">2</td>
+              <td><code>PRA</code> / <code>PRA (Path Ranking Algorithm)</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>R-GCN</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">2</td>
+              <td><code>R-GCN</code> / <code>R-GCNs</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>SecondaryNameNode</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center">2</td>
+              <td><code>Secondary NameNode</code> / <code>SecondaryNameNode</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+            </tr></tbody></table>
+  </div>
+</div>
+
+
+<div class="section">
+  <div class="sec-head"><h2>三、跨中文书出现、未做词形合并的 cluster（同词跨书）</h2></div>
+  <div class="sec-body">
+    <div class="warn">⚠️ <strong>注意：</strong>这些概念在多本中文书里都出现，但只有一个词形（form_count=1）。说明同一个词在不同书里写法完全相同，已经被合到一个节点了 —— 这是正确的。但你需要检查：有没有语义一样但写法略有不同、却没被合并的？</div>
+    <p style="color:#57606a;margin-bottom:10px">共 88 条</p>
+    <table><thead><tr>
+      <th style="width:20%">规范名</th><th style="width:9%">类型</th>
+      <th style="width:7%">词形数</th><th style="width:7%">出现次数</th>
+      <th style="width:35%">所有词形</th><th style="width:22%">来源书籍</th>
+    </tr></thead><tbody><tr>
+              <td><strong>决策树</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">14</td>
+              <td><code>决策树</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>特征向量</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">11</td>
+              <td><code>特征向量</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>方差</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">7</td>
+              <td><code>方差</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>人工智能</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">6</td>
+              <td><code>人工智能</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>属性</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">11</td>
+              <td><code>属性</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>预测</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">10</td>
+              <td><code>预测</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>支持向量机</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">9</td>
+              <td><code>支持向量机</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>过拟合</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">9</td>
+              <td><code>过拟合</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>协方差矩阵</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">8</td>
+              <td><code>协方差矩阵</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>变量</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">7</td>
+              <td><code>变量</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>层次聚类</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">7</td>
+              <td><code>层次聚类</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>特征值</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">7</td>
+              <td><code>特征值</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>核函数</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">6</td>
+              <td><code>核函数</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>相关系数</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">6</td>
+              <td><code>相关系数</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>学习率</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>学习率</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>线性回归</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>线性回归</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>结构化数据</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>结构化数据</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>训练数据</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>训练数据</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>非结构化数据</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>非结构化数据</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>EM算法</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">8</td>
+              <td><code>EM算法</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>随机森林</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">7</td>
+              <td><code>随机森林</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>规则</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">6</td>
+              <td><code>规则</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>召回率</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>召回率</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>条件概率</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>条件概率</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>隐马尔可夫模型</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>隐马尔可夫模型</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>KL散度</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>KL散度</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>协方差</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>协方差</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>可靠性</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>可靠性</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>回归</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>回归</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>大数据</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>大数据</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>特征选择</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>特征选择</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>交互性</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>交互性</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>交叉验证</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>交叉验证</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>任务</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>任务</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>测试</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>测试</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>测试集</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>测试集</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>神经网络</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>神经网络</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#6e7781;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">英文书</span></td>
+            </tr><tr>
+              <td><strong>知识图谱</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">20</td>
+              <td><code>知识图谱</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>可解释性</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">10</td>
+              <td><code>可解释性</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>隐变量</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">7</td>
+              <td><code>隐变量</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>二项分布</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>二项分布</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>信息增益</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>信息增益</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>梯度下降法</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>梯度下降法</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>特征函数</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>特征函数</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>矩阵分解</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">5</td>
+              <td><code>矩阵分解</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>半结构化数据</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>半结构化数据</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>后验概率</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>后验概率</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>命名实体识别</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>命名实体识别</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>条件独立性</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>条件独立性</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span></td>
+            </tr><tr>
+              <td><strong>样本空间</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>样本空间</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span></td>
+            </tr><tr>
+              <td><strong>知识图谱表示学习</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>知识图谱表示学习</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>霍恩子句</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">4</td>
+              <td><code>霍恩子句</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>F1值</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>F1值</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>修饰符</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>修饰符</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>先验概率</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>先验概率</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>前向分步算法</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>前向分步算法</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>加法模型</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>加法模型</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>卷积神经网络</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>卷积神经网络</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+            </tr><tr>
+              <td><strong>图</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>图</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>推荐系统</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>推荐系统</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>核技巧</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>核技巧</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>模型参数</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>模型参数</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>算法</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>算法</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>自然语言处理</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>自然语言处理</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>视觉推理</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">3</td>
+              <td><code>视觉推理</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>互信息</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>互信息</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>交叉验证法</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>交叉验证法</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>人工神经网络</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>人工神经网络</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>似然函数</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>似然函数</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>余弦相似度</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>余弦相似度</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>图神经网络</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>图神经网络</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>图编辑器</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>图编辑器</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>安全性</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>安全性</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+            </tr><tr>
+              <td><strong>张量</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>张量</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>归纳推理</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>归纳推理</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>情感分析</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>情感分析</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+            </tr><tr>
+              <td><strong>数据库</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>数据库</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>时效性</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>时效性</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+            </tr><tr>
+              <td><strong>条件随机场</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>条件随机场</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>模式匹配</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>模式匹配</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>物品</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>物品</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+            </tr><tr>
+              <td><strong>算法</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>算法</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>精确率</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>精确率</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>计算机视觉</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>计算机视觉</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+            </tr><tr>
+              <td><strong>评价指标</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>评价指标</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>贝叶斯学习</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>贝叶斯学习</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+            </tr><tr>
+              <td><strong>逻辑推理</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>逻辑推理</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr><tr>
+              <td><strong>问答系统</strong></td>
+              <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">2</td>
+              <td><code>问答系统</code></td>
+              <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+            </tr></tbody></table>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-head"><h2>四、完全相同名称出现多次（可能是误未合并）</h2></div>
+  <div class="sec-body">
+    <div class="danger">🚨 <strong>需要重点检查：</strong>同一个 canonical_name 在 cluster 列表里出现了多次（理论上应该只有一个节点）。这说明合并可能有遗漏。共 <strong>419</strong> 个。</div>
+    <p style="color:#57606a;margin-bottom:10px">显示前 100 条，按重复次数排序</p>
+    <table><thead><tr>
+      <th style="width:30%">实体名</th><th style="width:15%">类型</th>
+      <th style="width:10%">重复次数</th><th style="width:45%">出现书籍</th>
+    </tr></thead><tbody><tr>
+          <td><strong>A/B testing</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">5</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>UX benchmarking</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">4</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>data mining</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">4</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>game data mining</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">4</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>game analytics</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>random walk</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>5-second test</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>field observation</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>unsupervised learning</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>usability test</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>interview</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>user research</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>聚类</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>A/B测试</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">15_AB测试设计</span></td>
+        </tr><tr>
+          <td><strong>游戏分析</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>本体映射</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>可视化</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>命名实体识别</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>用户测试</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>知识融合</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>纸质原型</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td><strong>resampling</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>SPARQL</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>user experience design</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>交叉验证</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>探索性数据分析</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>数据挖掘</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>案例研究</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>用户研究</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>眼动追踪</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>知识抽取</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>空间分析</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>访谈</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>随机抽样</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>随机游走</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>regression</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>telemetry analysis</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>主动学习</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>低秩近似</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span></td>
+        </tr><tr>
+          <td><strong>分层抽样</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>半监督学习</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>单侧检验</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>多重比较</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>实例匹配</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>强化学习</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>截断奇异值分解</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>游戏数据分析</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>游戏设计</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td><strong>逻辑推理</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+        </tr><tr>
+          <td><strong>ARTTest</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>communication</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>dimension reduction</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>dimensionality reduction</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>Guided interview</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>可用性与用户体验设计</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>数据仓库</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+        </tr><tr>
+          <td><strong>显著性检验</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>硬聚类</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">3</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>context of use analysis</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>game metrics</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>machine learning</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td><strong>questionnaire</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>Koopman operator</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>G(n, p) model</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>MapReduce</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+        </tr><tr>
+          <td><strong>supervised learning</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>adjusted-Wald confidence interval</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>visual design</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>Standardized questionnaires</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>data visualization</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>telemetry system</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>clustering</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+        </tr><tr>
+          <td><strong>cross-validation</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>usability and UX test</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>Eye tracking</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>PageRank</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>workflow</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>dynamical systems</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>Fourier transform</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>instrumentation</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>perception</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>post-task questionnaire</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>psychometric evaluation</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>regularization</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>task analysis</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>topic modeling</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>design thinking</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>developer-facing telemetry system</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>flexibility and risk matrix</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>focus group</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>hypothesis test</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>reaction</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>standardization</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>summative evaluation</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>Usability and UX testing</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">process</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">method</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>usability and UX testing</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>visual analytics system</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">tool</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td></td>
+        </tr><tr>
+          <td><strong>决策树</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td><strong>数据可视化</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">concept</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+        </tr><tr>
+          <td><strong>回归</strong></td>
+          <td><span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">task</span> <span style="background:#1b7c83;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">algorithm</span></td>
+          <td style="text-align:center;color:#cf222e;font-weight:700">2</td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr></tbody></table>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-head"><h2>五、前缀相似、可能未合并的词群（潜在漏合并）</h2></div>
+  <div class="sec-body">
+    <div class="warn">⚠️ <strong>需要人工判断：</strong>这些词前4个字相同，可能是同一概念的不同表述（如「知识图谱推理」和「知识图谱推理新进展」），也可能是合理的不同概念。逐组判断，标记哪些该合并。</div>
+    <p style="color:#57606a;margin-bottom:10px">显示前 80 组，按组内词数排序</p>
+    <table><thead><tr>
+      <th style="width:12%">共同前缀</th><th style="width:8%">词数</th>
+      <th style="width:50%">所有相似词</th><th style="width:30%">出现书籍</th>
+    </tr></thead><tbody><tr>
+          <td style="font-weight:600">知识图谱…</td>
+          <td style="text-align:center">35</td>
+          <td><code>知识图谱</code> / <code>知识图谱推理</code> / <code>知识图谱融合</code> / <code>知识图谱表示学习</code> / <code>知识图谱嵌入</code> / <code>知识图谱嵌入</code> / <code>知识图谱数据库</code> / <code>知识图谱数据模型</code> / <code>知识图谱查询语言</code> / <code>知识图谱补全</code> / <code>知识图谱Schema</code> / <code>知识图谱与推荐系统</code> / <code>知识图谱匹配</code> / <code>知识图谱匹配系统</code> / <code>知识图谱向量表示</code> / <code>知识图谱子图</code> / <code>知识图谱存储</code> / <code>知识图谱嵌入技术</code> / <code>知识图谱应用</code> / <code>知识图谱应用案例</code> / <code>知识图谱推理</code> / <code>知识图谱推理新进展</code> / <code>知识图谱数据库比较</code> / <code>知识图谱数据库的存储</code> / <code>知识图谱数据库的索引</code> / <code>知识图谱构建</code> / <code>知识图谱查询语言</code> / <code>知识图谱的表示方法</code> / <code>知识图谱融合</code> / <code>知识图谱表示学习</code> / <code>知识图谱表示学习技术</code> / <code>知识图谱规则推理</code> / <code>知识图谱语义搜索</code> / <code>知识图谱问答</code> / <code>知识图谱问答系统</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">数据驱动…</td>
+          <td style="text-align:center">20</td>
+          <td><code>数据驱动</code> / <code>数据驱动的用户体验设计过程</code> / <code>数据驱动设计</code> / <code>数据驱动UX设计过程</code> / <code>数据驱动发现</code> / <code>数据驱动开发</code> / <code>数据驱动方法</code> / <code>数据驱动方法</code> / <code>数据驱动用户体验设计</code> / <code>数据驱动的UX设计方法</code> / <code>数据驱动的UX设计过程</code> / <code>数据驱动的人工智能系统</code> / <code>数据驱动的动力学系统</code> / <code>数据驱动的文档</code> / <code>数据驱动的游戏设计</code> / <code>数据驱动的游戏设计</code> / <code>数据驱动的用户体验设计</code> / <code>数据驱动的用户体验设计</code> / <code>数据驱动的用户体验设计方法</code> / <code>数据驱动的科学和工程</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">15_AB测试设计</span></td>
+        </tr><tr>
+          <td style="font-weight:600">数据可视…</td>
+          <td style="text-align:center">10</td>
+          <td><code>数据可视化</code> / <code>数据可视化</code> / <code>数据可视化书友会</code> / <code>数据可视化原则</code> / <code>数据可视化叙事</code> / <code>数据可视化工具</code> / <code>数据可视化技能</code> / <code>数据可视化挑战</code> / <code>数据可视化最佳实践</code> / <code>数据可视化风格</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+        </tr><tr>
+          <td style="font-weight:600">马尔可夫…</td>
+          <td style="text-align:center">10</td>
+          <td><code>马尔可夫链</code> / <code>马尔可夫链蒙特卡罗法</code> / <code>马尔可夫链蒙特卡洛</code> / <code>马尔可夫不等式</code> / <code>马尔可夫决策过程</code> / <code>马尔可夫性</code> / <code>马尔可夫链</code> / <code>马尔可夫链基本定理</code> / <code>马尔可夫链蒙特卡洛方法</code> / <code>马尔可夫随机场</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">眼动追踪…</td>
+          <td style="text-align:center">9</td>
+          <td><code>眼动追踪</code> / <code>眼动追踪</code> / <code>眼动追踪数据</code> / <code>眼动追踪</code> / <code>眼动追踪实验</code> / <code>眼动追踪度量</code> / <code>眼动追踪数据分析</code> / <code>眼动追踪研究</code> / <code>眼动追踪系统</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">自然语言…</td>
+          <td style="text-align:center">9</td>
+          <td><code>自然语言处理</code> / <code>自然语言查询</code> / <code>自然语言语义查询</code> / <code>自然语言处理</code> / <code>自然语言推理</code> / <code>自然语言理解</code> / <code>自然语言生成</code> / <code>自然语言答案生成</code> / <code>自然语言问题</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏数据…</td>
+          <td style="text-align:center">8</td>
+          <td><code>游戏数据</code> / <code>游戏数据分析</code> / <code>游戏数据挖掘</code> / <code>游戏数据分析</code> / <code>游戏数据分析</code> / <code>游戏数据分析工具</code> / <code>游戏数据库</code> / <code>游戏数据服务</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏玩法…</td>
+          <td style="text-align:center">7</td>
+          <td><code>游戏玩法</code> / <code>游戏玩法元素</code> / <code>游戏玩法度量</code> / <code>游戏玩法指标</code> / <code>游戏玩法指标分析</code> / <code>游戏玩法遥测数据</code> / <code>游戏玩法钩子</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏遥测…</td>
+          <td style="text-align:center">7</td>
+          <td><code>游戏遥测</code> / <code>游戏遥测数据</code> / <code>游戏遥测</code> / <code>游戏遥测与分析</code> / <code>游戏遥测与分析</code> / <code>游戏遥测与分析服务</code> / <code>游戏遥测系统</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏分析…</td>
+          <td style="text-align:center">6</td>
+          <td><code>游戏分析</code> / <code>游戏分析</code> / <code>游戏分析</code> / <code>游戏分析变量选择</code> / <code>游戏分析学</code> / <code>游戏分析工具</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏设计…</td>
+          <td style="text-align:center">6</td>
+          <td><code>游戏设计文档</code> / <code>游戏设计师</code> / <code>游戏设计</code> / <code>游戏设计</code> / <code>游戏设计文档</code> / <code>游戏设计</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">最小二乘…</td>
+          <td style="text-align:center">6</td>
+          <td><code>最小二乘法</code> / <code>最小二乘回归</code> / <code>最小二乘回归树</code> / <code>最小二乘拟合</code> / <code>最小二乘解</code> / <code>最小二乘误差</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">条件随机…</td>
+          <td style="text-align:center">6</td>
+          <td><code>条件随机场</code> / <code>条件随机场</code> / <code>条件随机场的概率计算问题</code> / <code>条件随机场的矩阵形式</code> / <code>条件随机场的简化形式</code> / <code>条件随机场的预测算法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">SPAR…</td>
+          <td style="text-align:center">6</td>
+          <td><code>SPARQL查询</code> / <code>SPARQL查询</code> / <code>SPARQL查询引擎</code> / <code>SPARQL查询模板</code> / <code>SPARQL端点</code> / <code>SPARQL约束条件</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">机器学习…</td>
+          <td style="text-align:center">6</td>
+          <td><code>机器学习</code> / <code>机器学习算法</code> / <code>机器学习</code> / <code>机器学习三要素</code> / <code>机器学习模型</code> / <code>机器学习模型</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">用户研究…</td>
+          <td style="text-align:center">6</td>
+          <td><code>用户研究</code> / <code>用户研究</code> / <code>用户研究</code> / <code>用户研究员</code> / <code>用户研究数据</code> / <code>用户研究方法</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏开发…</td>
+          <td style="text-align:center">6</td>
+          <td><code>游戏开发者</code> / <code>游戏开发遥测</code> / <code>游戏开发遥测</code> / <code>游戏开发</code> / <code>游戏开发</code> / <code>游戏开发遥测数据</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">可用性与…</td>
+          <td style="text-align:center">6</td>
+          <td><code>可用性与用户体验冲刺</code> / <code>可用性与用户体验测试</code> / <code>可用性与用户体验测试</code> / <code>可用性与用户体验设计</code> / <code>可用性与用户体验设计</code> / <code>可用性与用户体验设计</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">可解释性…</td>
+          <td style="text-align:center">5</td>
+          <td><code>可解释性</code> / <code>可解释性方法</code> / <code>可解释性与物理解释</code> / <code>可解释性方法</code> / <code>可解释性方法评测维度</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏指标…</td>
+          <td style="text-align:center">5</td>
+          <td><code>游戏指标</code> / <code>游戏指标分析</code> / <code>游戏指标分析</code> / <code>游戏指标可视化</code> / <code>游戏指标系统</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">样本量估…</td>
+          <td style="text-align:center">5</td>
+          <td><code>样本量估计</code> / <code>样本量估计</code> / <code>样本量估算</code> / <code>样本量估计公式</code> / <code>样本量估计公式</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">本体映射…</td>
+          <td style="text-align:center">5</td>
+          <td><code>本体映射</code> / <code>本体映射</code> / <code>本体映射</code> / <code>本体映射技术</code> / <code>本体映射的综合方法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">数据挖掘…</td>
+          <td style="text-align:center">5</td>
+          <td><code>数据挖掘</code> / <code>数据挖掘</code> / <code>数据挖掘</code> / <code>数据挖掘技术</code> / <code>数据挖掘流程</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">朴素贝叶…</td>
+          <td style="text-align:center">5</td>
+          <td><code>朴素贝叶斯法</code> / <code>朴素贝叶斯算法</code> / <code>朴素贝叶斯</code> / <code>朴素贝叶斯分类</code> / <code>朴素贝叶斯分类算法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">玩家行为…</td>
+          <td style="text-align:center">5</td>
+          <td><code>玩家行为</code> / <code>玩家行为分析</code> / <code>玩家行为模型</code> / <code>玩家行为数据</code> / <code>玩家行为预测</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">随机游走…</td>
+          <td style="text-align:center">5</td>
+          <td><code>随机游走</code> / <code>随机游走</code> / <code>随机游走模型</code> / <code>随机游走模型</code> / <code>随机游走</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">可解释的…</td>
+          <td style="text-align:center">5</td>
+          <td><code>可解释的卷积神经网络</code> / <code>可解释的原子</code> / <code>可解释的推荐系统</code> / <code>可解释的神经网络</code> / <code>可解释的神经网络</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span></td>
+        </tr><tr>
+          <td style="font-weight:600">拉普拉斯…</td>
+          <td style="text-align:center">5</td>
+          <td><code>拉普拉斯修正</code> / <code>拉普拉斯平滑</code> / <code>拉普拉斯方法</code> / <code>拉普拉斯矩阵</code> / <code>拉普拉斯置信区间</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">支持向量…</td>
+          <td style="text-align:center">4</td>
+          <td><code>支持向量机</code> / <code>支持向量</code> / <code>支持向量回归模型</code> / <code>支持向量机的对偶形式</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">人工智能…</td>
+          <td style="text-align:center">4</td>
+          <td><code>人工智能</code> / <code>人工智能</code> / <code>人工智能模型可解释性</code> / <code>人工智能系统</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">数据收集…</td>
+          <td style="text-align:center">4</td>
+          <td><code>数据收集</code> / <code>数据收集方法</code> / <code>数据收集格式</code> / <code>数据收集策略</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">线性可分…</td>
+          <td style="text-align:center">4</td>
+          <td><code>线性可分支持向量机</code> / <code>线性可分数据集</code> / <code>线性可分</code> / <code>线性可分支持向量机</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏用户…</td>
+          <td style="text-align:center">4</td>
+          <td><code>游戏用户研究</code> / <code>游戏用户体验研究</code> / <code>游戏用户研究</code> / <code>游戏用户测试</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">交叉验证…</td>
+          <td style="text-align:center">4</td>
+          <td><code>交叉验证</code> / <code>交叉验证</code> / <code>交叉验证法</code> / <code>交叉验证</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">最佳拟合…</td>
+          <td style="text-align:center">4</td>
+          <td><code>最佳拟合子空间</code> / <code>最佳拟合子空间</code> / <code>最佳拟合线</code> / <code>最佳拟合线</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">案例研究…</td>
+          <td style="text-align:center">4</td>
+          <td><code>案例研究</code> / <code>案例研究</code> / <code>案例研究</code> / <code>案例研究主题</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">用户体验…</td>
+          <td style="text-align:center">4</td>
+          <td><code>用户体验</code> / <code>用户体验研究</code> / <code>用户体验设计</code> / <code>用户体验设计</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">15_AB测试设计</span></td>
+        </tr><tr>
+          <td style="font-weight:600">知识抽取…</td>
+          <td style="text-align:center">4</td>
+          <td><code>知识抽取</code> / <code>知识抽取</code> / <code>知识抽取</code> / <code>知识抽取管理器</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">稀疏回归…</td>
+          <td style="text-align:center">4</td>
+          <td><code>稀疏回归</code> / <code>稀疏回归</code> / <code>稀疏回归分类 (SRC)</code> / <code>稀疏回归系数矩阵</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">随机抽样…</td>
+          <td style="text-align:center">4</td>
+          <td><code>随机抽样</code> / <code>随机抽样</code> / <code>随机抽样</code> / <code>随机抽样过程</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">基于知识…</td>
+          <td style="text-align:center">4</td>
+          <td><code>基于知识图谱的问答</code> / <code>基于知识图谱中元路径的推荐模型</code> / <code>基于知识图谱的推荐模型</code> / <code>基于知识图谱表示学习技术的推荐模型</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">实例匹配…</td>
+          <td style="text-align:center">4</td>
+          <td><code>实例匹配</code> / <code>实例匹配</code> / <code>实例匹配</code> / <code>实例匹配框架</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">数据故事…</td>
+          <td style="text-align:center">4</td>
+          <td><code>数据故事讲述</code> / <code>数据故事叙述</code> / <code>数据故事叙述过程</code> / <code>数据故事讲述过程</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">混合方法…</td>
+          <td style="text-align:center">4</td>
+          <td><code>混合方法研究</code> / <code>混合方法</code> / <code>混合方法</code> / <code>混合方法方法论</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏场地…</td>
+          <td style="text-align:center">4</td>
+          <td><code>游戏场地</code> / <code>游戏场地物体放置</code> / <code>游戏场地设计</code> / <code>游戏场地设计</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">Data…</td>
+          <td style="text-align:center">4</td>
+          <td><code>Datalog事实</code> / <code>Datalog推理机</code> / <code>Datalog程序</code> / <code>Datalog规则</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">基于实例…</td>
+          <td style="text-align:center">4</td>
+          <td><code>基于实例的方法</code> / <code>基于实例的映射发现</code> / <code>基于实例的本体映射</code> / <code>基于实例的解释方法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">定理3.…</td>
+          <td style="text-align:center">4</td>
+          <td><code>定理3.5.1</code> / <code>定理3.5.2</code> / <code>定理3.5.3</code> / <code>定理3.5.4</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span></td>
+        </tr><tr>
+          <td style="font-weight:600">心理生理…</td>
+          <td style="text-align:center">4</td>
+          <td><code>心理生理学关系</code> / <code>心理生理学指标</code> / <code>心理生理数据</code> / <code>心理生理测量</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">拉格朗日…</td>
+          <td style="text-align:center">4</td>
+          <td><code>拉格朗日乘子</code> / <code>拉格朗日乘数法</code> / <code>拉格朗日函数</code> / <code>拉格朗日对偶性</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">游戏中的…</td>
+          <td style="text-align:center">4</td>
+          <td><code>游戏中的屏幕</code> / <code>游戏中的故事</code> / <code>游戏中的界面屏幕</code> / <code>游戏中的谜题</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">语义相似…</td>
+          <td style="text-align:center">4</td>
+          <td><code>语义相似度</code> / <code>语义相似度匹配</code> / <code>语义相似度计算算法</code> / <code>语义相似性</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">A/B测…</td>
+          <td style="text-align:center">3</td>
+          <td><code>A/B测试</code> / <code>A/B测试</code> / <code>A/B测试</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">15_AB测试设计</span></td>
+        </tr><tr>
+          <td style="font-weight:600">样本均值…</td>
+          <td style="text-align:center">3</td>
+          <td><code>样本均值</code> / <code>样本均值分布</code> / <code>样本均值向量</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">梯度下降…</td>
+          <td style="text-align:center">3</td>
+          <td><code>梯度下降</code> / <code>梯度下降法</code> / <code>梯度下降算法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">知识表示…</td>
+          <td style="text-align:center">3</td>
+          <td><code>知识表示</code> / <code>知识表示框架</code> / <code>知识表示模型</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">监督学习…</td>
+          <td style="text-align:center">3</td>
+          <td><code>监督学习</code> / <code>监督学习</code> / <code>监督学习算法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">二项分布…</td>
+          <td style="text-align:center">3</td>
+          <td><code>二项分布</code> / <code>二项分布</code> / <code>二项分布随机变量</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">条件概率…</td>
+          <td style="text-align:center">3</td>
+          <td><code>条件概率</code> / <code>条件概率分布</code> / <code>条件概率密度</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">11_数据科学概率</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">遥测数据…</td>
+          <td style="text-align:center">3</td>
+          <td><code>遥测数据</code> / <code>遥测数据分析</code> / <code>遥测数据收集</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">RDF三…</td>
+          <td style="text-align:center">3</td>
+          <td><code>RDF三元组</code> / <code>RDF三元组数据库</code> / <code>RDF三元组模型</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">命名实体…</td>
+          <td style="text-align:center">3</td>
+          <td><code>命名实体识别</code> / <code>命名实体识别</code> / <code>命名实体识别</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">特征选择…</td>
+          <td style="text-align:center">3</td>
+          <td><code>特征选择</code> / <code>特征选择</code> / <code>特征选择方法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">用户测试…</td>
+          <td style="text-align:center">3</td>
+          <td><code>用户测试</code> / <code>用户测试</code> / <code>用户测试</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">知识融合…</td>
+          <td style="text-align:center">3</td>
+          <td><code>知识融合</code> / <code>知识融合</code> / <code>知识融合</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">纸质原型…</td>
+          <td style="text-align:center">3</td>
+          <td><code>纸质原型</code> / <code>纸质原型</code> / <code>纸质原型</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">线性判别…</td>
+          <td style="text-align:center">3</td>
+          <td><code>线性判别分析</code> / <code>线性判别函数</code> / <code>线性判别线</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span></td>
+        </tr><tr>
+          <td style="font-weight:600">领域知识…</td>
+          <td style="text-align:center">3</td>
+          <td><code>领域知识图谱</code> / <code>领域知识图谱数据库</code> / <code>领域知识图谱构建</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">2D地图…</td>
+          <td style="text-align:center">3</td>
+          <td><code>2D地图编辑器</code> / <code>2D地图</code> / <code>2D地图原型</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">图数据库…</td>
+          <td style="text-align:center">3</td>
+          <td><code>图数据库</code> / <code>图数据库Cayley</code> / <code>图数据库系统</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">基于规则…</td>
+          <td style="text-align:center">3</td>
+          <td><code>基于规则的推理</code> / <code>基于规则的实例匹配方法</code> / <code>基于规则的方法</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">定量使用…</td>
+          <td style="text-align:center">3</td>
+          <td><code>定量使用数据分析</code> / <code>定量使用数据分析</code> / <code>定量使用数据</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">探索性数…</td>
+          <td style="text-align:center">3</td>
+          <td><code>探索性数据分析</code> / <code>探索性数据分析</code> / <code>探索性数据分析</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">数据分析…</td>
+          <td style="text-align:center">3</td>
+          <td><code>数据分析</code> / <code>数据分析与决策</code> / <code>数据分析系统</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">13_游戏设计师修炼</span></td>
+        </tr><tr>
+          <td style="font-weight:600">样本主成…</td>
+          <td style="text-align:center">3</td>
+          <td><code>样本主成分分析</code> / <code>样本主成分</code> / <code>样本主成分分析</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">14_知识图谱</span></td>
+        </tr><tr>
+          <td style="font-weight:600">神经网络…</td>
+          <td style="text-align:center">3</td>
+          <td><code>神经网络</code> / <code>神经网络AI</code> / <code>神经网络中层特征</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">09_可解释AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">10_大数据与AI导论</span> <span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr><tr>
+          <td style="font-weight:600">空间分析…</td>
+          <td style="text-align:center">3</td>
+          <td><code>空间分析</code> / <code>空间分析</code> / <code>空间分析</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">空间游戏…</td>
+          <td style="text-align:center">3</td>
+          <td><code>空间游戏分析</code> / <code>空间游戏分析</code> / <code>空间游戏指标</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">视觉分析…</td>
+          <td style="text-align:center">3</td>
+          <td><code>视觉分析系统</code> / <code>视觉分析</code> / <code>视觉分析工具</code></td>
+          <td></td>
+        </tr><tr>
+          <td style="font-weight:600">解决方案…</td>
+          <td style="text-align:center">3</td>
+          <td><code>解决方案</code> / <code>解决方案中立</code> / <code>解决方案结构优化</code></td>
+          <td><span style="background:#0969da;color:#fff;padding:2px 7px;border-radius:10px;font-size:12px;font-weight:600">12_游戏设计师25年</span></td>
+        </tr></tbody></table>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
